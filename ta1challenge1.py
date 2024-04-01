@@ -111,8 +111,8 @@ client1.subscribe("david-marc-ta1-topic1/#", qos=1)
 client2.subscribe("david-marc-ta1-topic2/#", qos=1)
 
 # a single publish, this can also be done in loops, etc.
-client1.publish("david-marc-ta1-topic1", payload=random.randint(0,100), qos=1)
-client2.publish("david-marc-ta1-topic2", payload=random.randint(0,100), qos=1)
+#client1.publish("david-marc-ta1-topic1", payload=random.randint(0,100), qos=1)
+#client2.publish("david-marc-ta1-topic2", payload=random.randint(0,100), qos=1)
 
 # loop_forever for simplicity, here you need to stop the loop manually
 # you can also use loop_start and loop_stop
