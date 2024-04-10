@@ -106,11 +106,22 @@ client2.on_subscribe = on_subscribe
 client2.on_message = on_message
 client2.on_publish = on_publish
 
-# subscribe to all topics of encyclopedia by using the wildcard "#"
-client1.subscribe("david-marc-ta1/topic1", qos=1)
-client2.subscribe("david-marc-ta1/topic2", qos=1)
+# subscribe to all topics of david-marc-ta1 by using the wildcard "#"
+client1.subscribe("david-marc-ta1/#", qos=1)
+client2.subscribe("david-marc-ta1/#", qos=1)
 
+# a single publish, this can also be done in loops, etc.
+#client1.publish("david-marc-ta1-topic1", payload=random.randint(0,100), qos=1)
+#client2.publish("david-marc-ta1-topic2", payload=random.randint(0,100), qos=1)
+
+# loop_forever for simplicity, here you need to stop the loop manually
+# you can also use loop_start and loop_stop
+#client.loop_forever()
 while True:
     client1.publish("david-marc-ta1/topic1", payload=random.randint(0,100), qos=1)
+    client1.loop_start()
     client2.publish("david-marc-ta1/topic2", payload=random.randint(0,100), qos=1)
+    client2.loop_start()
+    client1.loop_stop()
+    client2.loop_stop()
     time.sleep(3)
