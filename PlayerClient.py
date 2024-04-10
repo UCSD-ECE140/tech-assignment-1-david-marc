@@ -6,7 +6,6 @@ import paho.mqtt.client as paho
 from paho import mqtt
 import time
 
-
 # setting callbacks for different events to see if it works, print the message etc.
 def on_connect(client, userdata, flags, rc, properties=None):
     """
@@ -57,6 +56,7 @@ def on_message(client, userdata, msg):
     print("message: " + msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
 
 
+
 if __name__ == '__main__':
     load_dotenv(dotenv_path='./credentials.env')
     
@@ -102,9 +102,34 @@ if __name__ == '__main__':
 
     time.sleep(1) # Wait a second to resolve game start
     client.publish(f"games/{lobby_name}/start", "START")
+    # client.publish(f"games/{lobby_name}/start", "STOP")
+
+    client.loop_start()
+
+    while True:
+
+        time.sleep(1)
+
+        if player_1 == "Player1":
+            user_input = input("Enter command for Player 1: {UP/DOWN/LEFT/RIGHT} \n")
+            client.publish(f"games/{lobby_name}/{player_1}/move", user_input)
+
+        if player_2 == "Player2":
+            user_input = input("Enter command for Player 2: {UP/DOWN/LEFT/RIGHT} \n")
+            client.publish(f"games/{lobby_name}/{player_2}/move", user_input)
+
+        if player_3 == "Player3":
+            user_input = input("Enter command for Player 3: {UP/DOWN/LEFT/RIGHT}\n")
+            client.publish(f"games/{lobby_name}/{player_3}/move", user_input)
+
+        time.sleep(1)
+
+    '''
     client.publish(f"games/{lobby_name}/{player_1}/move", "UP")
     client.publish(f"games/{lobby_name}/{player_2}/move", "DOWN")
     client.publish(f"games/{lobby_name}/{player_3}/move", "DOWN")
+    '''
+
     client.publish(f"games/{lobby_name}/start", "STOP")
 
 

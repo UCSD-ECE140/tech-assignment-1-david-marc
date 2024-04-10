@@ -84,9 +84,8 @@ def add_player(client, topic_list, msg_payload):
         publish_error_to_lobby(client, player.lobby_name, "Game has already started, please make a new lobby")
 
     add_team(client, player)
-
+    
     print(f'Added Player: {player.player_name} to Team: {player.team_name}')
-
 
 def add_team(client, player):
     # If team not in lobby, make new team and start a player list for the team

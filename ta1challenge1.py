@@ -95,8 +95,8 @@ client2.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
 client1.username_pw_set("client1", "ECE140bb")
 client2.username_pw_set("client2", "ECE140bb")
 # connect to HiveMQ Cloud on port 8883 (default for MQTT)
-client1.connect("2f91c73f4470457889d5cd840de61ea1.s1.eu.hivemq.cloud", 8883)
-client2.connect("2f91c73f4470457889d5cd840de61ea1.s1.eu.hivemq.cloud", 8883)
+client1.connect("ec9baf4df8974872ad388409522104b1.s1.eu.hivemq.cloud", 8883)
+client2.connect("ec9baf4df8974872ad388409522104b1.s1.eu.hivemq.cloud", 8883)
 
 # setting callbacks, use separate functions like above for better visibility
 client1.on_subscribe = on_subscribe
@@ -107,18 +107,10 @@ client2.on_message = on_message
 client2.on_publish = on_publish
 
 # subscribe to all topics of encyclopedia by using the wildcard "#"
-client1.subscribe("david-marc-ta1-topic1/#", qos=1)
-client2.subscribe("david-marc-ta1-topic2/#", qos=1)
+client1.subscribe("david-marc-ta1/topic1", qos=1)
+client2.subscribe("david-marc-ta1/topic2", qos=1)
 
-# a single publish, this can also be done in loops, etc.
-#client1.publish("david-marc-ta1-topic1", payload=random.randint(0,100), qos=1)
-#client2.publish("david-marc-ta1-topic2", payload=random.randint(0,100), qos=1)
-
-# loop_forever for simplicity, here you need to stop the loop manually
-# you can also use loop_start and loop_stop
-#client1.loop_forever()
-#client2.loop_forever()
 while True:
-    client1.publish("david-marc-ta1-topic1", payload=random.randint(0,100), qos=1)
-    client2.publish("david-marc-ta1-topic2", payload=random.randint(0,100), qos=1)
+    client1.publish("david-marc-ta1/topic1", payload=random.randint(0,100), qos=1)
+    client2.publish("david-marc-ta1/topic2", payload=random.randint(0,100), qos=1)
     time.sleep(3)
