@@ -6,6 +6,8 @@ import paho.mqtt.client as paho
 from paho import mqtt
 import time
 
+end_game = [False]
+
 # setting callbacks for different events to see if it works, print the message etc.
 def on_connect(client, userdata, flags, rc, properties=None):
     """
@@ -55,6 +57,8 @@ def on_message(client, userdata, msg):
 
     print("message: " + msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
 
+    if str(msg.payload) == "b'Game Over: All coins have been collected'":
+        end_game[0] = True
 
 
 if __name__ == '__main__':
@@ -105,32 +109,21 @@ if __name__ == '__main__':
     # client.publish(f"games/{lobby_name}/start", "STOP")
 
     client.loop_start()
+    time.sleep(1)
 
     while True:
+        user_input = input("Enter command for " + player_1 + ": {UP/DOWN/LEFT/RIGHT} \n")
+        client.publish(f"games/{lobby_name}/{player_1}/move", user_input)
+
+        user_input = input("Enter command for " + player_2 + ": {UP/DOWN/LEFT/RIGHT} \n")
+        client.publish(f"games/{lobby_name}/{player_2}/move", user_input)
+
+        user_input = input("Enter command for " + player_3 + ": {UP/DOWN/LEFT/RIGHT}\n")
+        client.publish(f"games/{lobby_name}/{player_3}/move", user_input)
 
         time.sleep(1)
-
-        if player_1 == "Player1":
-            user_input = input("Enter command for Player 1: {UP/DOWN/LEFT/RIGHT} \n")
-            client.publish(f"games/{lobby_name}/{player_1}/move", user_input)
-
-        if player_2 == "Player2":
-            user_input = input("Enter command for Player 2: {UP/DOWN/LEFT/RIGHT} \n")
-            client.publish(f"games/{lobby_name}/{player_2}/move", user_input)
-
-        if player_3 == "Player3":
-            user_input = input("Enter command for Player 3: {UP/DOWN/LEFT/RIGHT}\n")
-            client.publish(f"games/{lobby_name}/{player_3}/move", user_input)
-
-        time.sleep(1)
-
-    '''
-    client.publish(f"games/{lobby_name}/{player_1}/move", "UP")
-    client.publish(f"games/{lobby_name}/{player_2}/move", "DOWN")
-    client.publish(f"games/{lobby_name}/{player_3}/move", "DOWN")
-    '''
-
+        if(end_game[0] == True):
+            break
+    
+    print("Game over!")
     client.publish(f"games/{lobby_name}/start", "STOP")
-
-
-    client.loop_forever()
