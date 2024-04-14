@@ -1,6 +1,5 @@
 import os
 import json
-import random
 from dotenv import load_dotenv
 
 import paho.mqtt.client as paho
@@ -108,8 +107,6 @@ if __name__ == '__main__':
     client.publish("new_game", json.dumps({'lobby_name':lobby_name,
                                         'team_name':'BTeam',
                                         'player_name' : player_4}))
-    
-    moves = {1:"UP", 2:"DOWN", 3:"LEFT", 4:"RIGHT"}
 
     time.sleep(1) # Wait a second to resolve game start
     client.publish(f"games/{lobby_name}/start", "START")
@@ -121,20 +118,20 @@ if __name__ == '__main__':
         time.sleep(1)
 
         if player_1 == "Player1":
-            # user_input = input("Enter command for Player 1: {UP/DOWN/LEFT/RIGHT} \n")
-            client.publish(f"games/{lobby_name}/{player_1}/move", moves[random.randint(1, 4)])
+            user_input = input("Enter command for Player 1: {UP/DOWN/LEFT/RIGHT} \n")
+            client.publish(f"games/{lobby_name}/{player_1}/move", user_input)
 
         if player_2 == "Player2":
-            # user_input = input("Enter command for Player 2: {UP/DOWN/LEFT/RIGHT} \n")
-            client.publish(f"games/{lobby_name}/{player_2}/move", moves[random.randint(1, 4)])
+            user_input = input("Enter command for Player 2: {UP/DOWN/LEFT/RIGHT} \n")
+            client.publish(f"games/{lobby_name}/{player_2}/move", user_input)
 
         if player_3 == "Player3":
-            # user_input = input("Enter command for Player 3: {UP/DOWN/LEFT/RIGHT}\n")
-            client.publish(f"games/{lobby_name}/{player_3}/move", moves[random.randint(1, 4)])
+            user_input = input("Enter command for Player 3: {UP/DOWN/LEFT/RIGHT}\n")
+            client.publish(f"games/{lobby_name}/{player_3}/move", user_input)
 
         if player_4 == "Player4":
-            # user_input = input("Enter command for Player 4: {UP/DOWN/LEFT/RIGHT}\n")
-            client.publish(f"games/{lobby_name}/{player_4}/move", moves[random.randint(1, 4)])
+            user_input = input("Enter command for Player 4: {UP/DOWN/LEFT/RIGHT}\n")
+            client.publish(f"games/{lobby_name}/{player_4}/move", user_input)
 
         time.sleep(1)
 
